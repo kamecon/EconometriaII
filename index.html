@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Procesos Estocásticos</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Kamal Romero" />
+    <script src="libs/header-attrs-2.10/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Procesos Estocásticos
+## Econometría II
+### Kamal Romero
+### (actualizado: 2021-09-09)
+
+---
+
+
+
+
+
+
+## Tipo de Cambio Nominal
+
+- El comportamiento del tipo de cambio es lejos de ser sistemático y predecible
+
+
+
+&lt;img src="Procesos_estocasticos_files/figure-html/er1-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Tipo de Cambio Nominal
+
+- El comportamiento del tipo de cambio es lejos de ser sistemático y predecible
+
+&lt;img src="Procesos_estocasticos_files/figure-html/er2-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Tipo de Cambio Nominal
+
+- El comportamiento del tipo de cambio es lejos de ser sistemático y predecible
+
+&lt;img src="Procesos_estocasticos_files/figure-html/er3-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Tipo de Cambio Nominal
+
+- Aunque sus variaciones presentan un comportamiento más predecible
+
+&lt;img src="Procesos_estocasticos_files/figure-html/er4-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Tipo de Cambio Nominal
+
+- Aunque sus variaciones presentan un comportamiento más predecible
+
+&lt;img src="Procesos_estocasticos_files/figure-html/er5-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Tipo de Cambio Nominal
+
+- Aunque sus variaciones presentan un comportamiento más predecible
+
+&lt;img src="Procesos_estocasticos_files/figure-html/er6-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Proceso estocástico y serie temporal
+
+- Una serie temporal es una colección de observaciones de una variable tomadas de forma secuencial y ordenada en el tiempo (instantes de tiempo equiespaciados). Las series pueden tener una periodicidad anual, semestral, trimestral, mensual, semanal, diaria etc., según los periodos de tiempo en los que están recogidos los datos que la componen.
+
+- Un proceso estocástico es una secuencia de variables aleatorias, ordenadas y equidistantes cronológicamente referidas a una característica observable en diferentes momentos.
+
+- Por ello, una serie temporal es una **realización particular de una muestra procedente de un proceso estocástico.**
+
+
+---
+
+## Proceso estocástico y serie temporal
+
+- Una serie temporal es una realización particular de un proceso estocástico
+
+&lt;img src="Procesos_estocasticos_files/figure-html/proceso01-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Proceso estocástico y serie temporal
+
+- Una serie temporal es una realización particular de un proceso estocástico
+
+&lt;img src="Procesos_estocasticos_files/figure-html/proceso02-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Proceso estocástico y serie temporal
+
+- Una serie temporal es una realización particular de un proceso estocástico
+
+&lt;img src="Procesos_estocasticos_files/figure-html/proceso03-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Proceso estocástico y serie temporal
+
+- Una serie temporal es una realización particular de un proceso estocástico
+
+&lt;img src="Procesos_estocasticos_files/figure-html/proceso04-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Proceso estocástico y serie temporal
+
+&lt;img src="proceso01.jpg" width="700"&gt;
+
+---
+
+
+## Proceso estocástico y serie temporal
+
+
+  - Elaborar un **modelo estadístico** para una muestra procedente de un proceso estocástico `\(Y_t\)` a partir de una única realización particular (una serie temporal `\(y_t\)`).
+  
+  - Utilizar el modelo elaborado para **prever** los futuros valores de proceso `\(Y_{(N+l)}\)`.
+  
+  - **Contrastar** alguna teoría sobre la característica o variable a la que se refiere la serie considerada.
+  
+  
+---
+
+
+## Proceso estocástico y serie temporal
+
+### ¿Cómo lo vamos a hacer?
+
+- Para conseguir estos objetivos se va a seleccionar un modelo para la muestra dentro de una clase general de modelos denominados ARIMA, que implique cierta propiedades teóricas para el proceso estocástico `\(Y_t\)` del que procede la muestra y que resulten compatibles con las propiedades muestrales observadas en la serie temporal `\(y_t\)`.
+
+- El problema para hacer esto es que solo tenemos una única realización particular del proceso estocástico. Para solucionar esto necesitamos que se cumpla la hipótesis de estacionariedad.
+  
+  
+---
+
+## Estacionariedad: Definición
+
+
+Si `\(\{y_t\}\)` es una serie temporal estacionaria, entonces para todo `\(s\)`, la distribución de `\((y_t,\dots,y_{t+s})\)` no depende de `\(t\)`.
+
+
+Una **serie estacionaria** es:
+
+*  aproximadamente horizontal
+*  varianza constante
+*  no hay patrones predecibles a largo plazo 
+---
+
+## ¿Estacionario?
+
+![](Procesos_estocasticos_files/figure-html/unnamed-chunk-1-1.png)&lt;!-- --&gt;
+
+---
+
+## ¿Estacionario?
+
+![](Procesos_estocasticos_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+
+---
+
+
+## ¿Estacionario?
+![](Procesos_estocasticos_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+
+## ¿Estacionario?
+
+![](Procesos_estocasticos_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+
+---
+
+## Estacionariedad: Definición
+
+
+Si `\(\{y_t\}\)` es una serie temporal estacionaria, entonces para todo `\(s\)`, la distribución de `\((y_t,\dots,y_{t+s})\)` no depende de `\(t\)`.
+
+
+Una **serie estacionaria** es:
+
+*  aproximadamente horizontal
+*  varianza constante
+*  no hay patrones predecibles a largo plazo 
+---
+
+## Estacionariedad: Definición (más formal)
+
+- Un proceso estocástico `\((Y_t)\)` es **estrictamente estacionario** si y sólo si para cualesquiera `\(n \geq 1\)` momentos `\(t_1&lt;t_2&lt; \ldots t_n\)` de su historia, la distribución de probabilidad conjunta de `\([Y_{t_1}, Y_{t_2}, \ldots, Y_{t_n}]'\)` coincide con la de `\([Y_{t_1+h}, Y_{t_2+h}, \ldots, Y_{t_n+h}]'\)` para cualquier número entero `\(h=\pm 1, \pm 2, \ldots\)` (distinto de cero).
+
+---
+
+## Estacionariedad: Definición (más formal)
+
+- Un proceso estocástico `\((Y_t)\)` con `\(E(Y_t) &lt; \infty\)` para todo `\(t=\pm 1, \pm 2, \ldots\)` es **estacionario en media** o **débilmente estacionario de primer orden** si y solo si `\(E(Y_t)\)` es constante (no depende de `\(t\)`) para todo `\(t=\pm 1, \pm 2, \ldots\)`.
+
+- Un proceso estocástico `\((Y_t)\)` con `\(E(Y^2_t) &lt; \infty\)` para todo `\(t= \pm 1, \pm 2, \ldots\)` es **estacionario en autocovarianza** o **débilmente estacionario de segundo orden** si y solo si:
+
+   - `\(E(Y_t)\)` y `\(Var(Y_t)\)` son constantes (no depende de `\(t\)`) para todo `\(t= \pm 1, \pm 2, \ldots\)`.
+
+   - `\(Cov(Y_t, Y_{t+k})\)` depende a lo sumo de `\(k\)` pero no de `\(t\)` para todo `\(t=\pm 1, \pm 2, \ldots\)`.
+
+---
+
+## Estacionariedad: Definición (más formal)
+
+- Un proceso estocástico `\((Y_t)\)` es **normal** o **gaussiano** cuando para cualesquiera `\(n \geq 1\)` momentos `\(t_1&lt;t_2&lt; \ldots t_n\)` de su historia, la distribución de probabilidad conjunta de `\([Y_{t_1}, Y_{t_2}, \ldots, Y_{t_n}]'\)` es una distribución normal `\(n-\)`variante.
+
+&gt; &lt;span style="color:red"&gt; Estacionariedad en autocovarianza + Normalidad `\(\Rightarrow\)` Estacionariedad Estricta &lt;/span&gt;
+
+---
+
+
+## Propiedades  de la hipótesis de estacionariedad
+
+   - &lt;span style="color:red"&gt;**Estacionariedad**&lt;/span&gt;: cierto estado de equilibrio estadístico que caracteriza la evolución temporal de un proceso estocástico que ha genera una serie temporal.
+   
+   -  &lt;span style="color:red"&gt;**Media**&lt;/span&gt;: valor constante en el tiempo que mide el nivel alrededor del cual evoluciona un proceso estocástico estacionario.
+   
+   -  &lt;span style="color:red"&gt;**Varianza**&lt;/span&gt;: valor constante en el tiempo que mide la dispersión o la variabilidad de la evolución temporal de un proceso estocástico estacionario alrededor de su media.
+   
+   -  &lt;span style="color:red"&gt;**Autocorrelaciones**&lt;/span&gt;: valores constantes en el tiempo que miden el grado de asociación lineal entre cada par de componentes de un proceso estocástico estacionario separados por diferentes intervalos temporales o retardos.
+
+---
+
+
+
+## Proceso ruido blanco
+
+- Ruido blanco `\(x_t = w_t\)`
+
+- Donde `\(E(w_t)=0\;\;\; var(w_t)=\sigma^2 \;\;\; \forall t\)`
+
+&lt;img src="Procesos_estocasticos_files/figure-html/ruido01-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Proceso ruido blanco
+
+- Lo vemos con menos datos para que se visalize mejor
+
+&lt;img src="Procesos_estocasticos_files/figure-html/ruido02-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Proceso ruido blanco con deriva (drift)
+
+- Ruido blanco con deriva `\(x_t =\delta +  w_t\)`
+
+&lt;img src="Procesos_estocasticos_files/figure-html/ruido03-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Proceso media movil
+
+- Media móvil `\(x_t =  \theta w_t\)`
+
+- En este caso particular el proceso es `\(x_t =\frac{1}{3} (w_{t-1}+w_t+w_{t+1})\)`. Se puede interpretar como una media centrada en cada observación
+
+
+&lt;img src="Procesos_estocasticos_files/figure-html/ma01-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Ambos procesos
+
+&lt;img src="Procesos_estocasticos_files/figure-html/ma02-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Procesos autoregresivos 
+
+- Proceso autoregresivo de orden 2 `\(x_t = x_{t-1} - 0.9x_{t-2} + w_t\)`
+
+&lt;img src="Procesos_estocasticos_files/figure-html/ar01-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Random walk (Paseo aleatorio)
+
+- Paseo aleatorio `\(x_t = x_{t-1} + w_t\)`
+
+- Paseo aleatorio con deriva `\(x_t = \delta+ x_{t-1} + w_t\)`
+
+&lt;img src="Procesos_estocasticos_files/figure-html/rw01-1.png" style="display: block; margin: auto;" /&gt;
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
