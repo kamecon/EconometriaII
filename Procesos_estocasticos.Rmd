@@ -27,8 +27,14 @@ pacman::p_load(tidyverse, kableExtra, quantmod, fredr, patchwork, fpp2)
 
 ```{r er0librerias, echo = FALSE, warning=FALSE, message=FALSE, include=FALSE}
 #Cargamos los datos
-list.files(path = "/cloud/project/data/", full.names = TRUE) %>%
-  map(load,.GlobalEnv)
+getSymbols(c('EURUSD=X','EURGBP=X','EURJPY=X'))
+euro_dolar <- `EURUSD=X`
+euro_libra <- `EURGBP=X`
+euro_yen <- `EURJPY=X`
+#Calculamos las variaciones
+euro_dolar$adjusteddiff <- diff(euro_dolar$`EURUSD=X.Adjusted` )
+euro_libra$adjusteddiff <- diff(euro_libra$`EURGBP=X.Adjusted` )
+euro_yen$adjusteddiff <- diff(euro_yen$`EURJPY=X.Adjusted`)
 
 ```
 
