@@ -14,7 +14,7 @@ class: center, middle, inverse, title-slide
 # Procesos Estocásticos
 ## Econometría II
 ### Kamal Romero
-### (actualizado: 2021-09-09)
+### (actualizado: 2021-09-13)
 
 ---
 
@@ -123,6 +123,21 @@ class: center, middle, inverse, title-slide
 
 &lt;img src="proceso01.jpg" width="700"&gt;
 
+
+---
+
+## Proceso estocástico y serie temporal
+ 
+### Distribución de un Proceso Estocástico
+
+- En analogía con las variables aleatorias (resultado de lanzar una moneda) queremos introducir caracteristicas no aletorias de los procesos estocásticos tales como su distribución, su esperanza, varianza, etc, y describir su **estructura de dependencia**.
+
+- Esta es una tarea mucho más complicada que en el caso de vectores de variables aleatorias (lanzar una moneda *n* veces).
+
+- De hecho un proceso estocástico no-trivial con un conjunto índice `\(T\)` es un objeto de dimensión infinita en el sentido de que se puede entender como una colección infinita de variables aleatorias.
+
+- En este curso intentaremos algo mucho mas simple.
+
 ---
 
 
@@ -135,6 +150,21 @@ class: center, middle, inverse, title-slide
   
   - **Contrastar** alguna teoría sobre la característica o variable a la que se refiere la serie considerada.
   
+
+---
+
+
+## Proceso estocástico y serie temporal
+
+### ¿Cómo lo vamos a hacer?
+
+Al igual que en la Econometría básica trabajábamos con dos los supuestos de *i.i.d.* (independiente e idénticamente distribuido), en la Econometría de Series Temporales nos hace faltan dos supuestos equivalentes:
+
+- &lt;span style="color:red"&gt;**Estacionariedad**&lt;/span&gt; (substituye al supuesto de identicamente distribuido)
+
+- &lt;span style="color:red"&gt;**Ergodicidad**&lt;/span&gt; (substituye al supuesto de independencia)
+
+
   
 ---
 
@@ -145,7 +175,7 @@ class: center, middle, inverse, title-slide
 
 - Para conseguir estos objetivos se va a seleccionar un modelo para la muestra dentro de una clase general de modelos denominados ARIMA, que implique cierta propiedades teóricas para el proceso estocástico `\(Y_t\)` del que procede la muestra y que resulten compatibles con las propiedades muestrales observadas en la serie temporal `\(y_t\)`.
 
-- El problema para hacer esto es que solo tenemos una única realización particular del proceso estocástico. Para solucionar esto necesitamos que se cumpla la hipótesis de estacionariedad.
+- El problema para hacer esto es que solo tenemos una única realización particular del proceso estocástico. Para solucionar esto necesitamos que se cumpla la hipótesis de estacionariedad mencionado antes.
   
   
 ---
@@ -191,6 +221,7 @@ Una **serie estacionaria** es:
 
 ## Estacionariedad: Definición
 
+Vamos a trabajar este concepto desde su definición más simple a una con mayor complejidad
 
 Si `\(\{y_t\}\)` es una serie temporal estacionaria, entonces para todo `\(s\)`, la distribución de `\((y_t,\dots,y_{t+s})\)` no depende de `\(t\)`.
 
@@ -200,15 +231,31 @@ Una **serie estacionaria** es:
 *  aproximadamente horizontal
 *  varianza constante
 *  no hay patrones predecibles a largo plazo 
+
 ---
 
 ## Estacionariedad: Definición (más formal)
+
+Un proceso se dice que es **estacionario debil** de orden *n* si todos sus momentos conjuntos de orden *n* existen y son invariantes en el tiempo.
+
+Procesos Estacionarios en Covarianzas (de 2º orden):
+
+- Esperanza constante
+
+- Varianza constante
+
+- La función de covarianzas depende solo de la diferencia temporal entre las variables
+
+
+---
+
+## Estacionariedad: Definición (aún más formal)
 
 - Un proceso estocástico `\((Y_t)\)` es **estrictamente estacionario** si y sólo si para cualesquiera `\(n \geq 1\)` momentos `\(t_1&lt;t_2&lt; \ldots t_n\)` de su historia, la distribución de probabilidad conjunta de `\([Y_{t_1}, Y_{t_2}, \ldots, Y_{t_n}]'\)` coincide con la de `\([Y_{t_1+h}, Y_{t_2+h}, \ldots, Y_{t_n+h}]'\)` para cualquier número entero `\(h=\pm 1, \pm 2, \ldots\)` (distinto de cero).
 
 ---
 
-## Estacionariedad: Definición (más formal)
+## Estacionariedad: Definición (aún más formal)
 
 - Un proceso estocástico `\((Y_t)\)` con `\(E(Y_t) &lt; \infty\)` para todo `\(t=\pm 1, \pm 2, \ldots\)` es **estacionario en media** o **débilmente estacionario de primer orden** si y solo si `\(E(Y_t)\)` es constante (no depende de `\(t\)`) para todo `\(t=\pm 1, \pm 2, \ldots\)`.
 
@@ -220,7 +267,7 @@ Una **serie estacionaria** es:
 
 ---
 
-## Estacionariedad: Definición (más formal)
+## Estacionariedad: Definición (aún más formal)
 
 - Un proceso estocástico `\((Y_t)\)` es **normal** o **gaussiano** cuando para cualesquiera `\(n \geq 1\)` momentos `\(t_1&lt;t_2&lt; \ldots t_n\)` de su historia, la distribución de probabilidad conjunta de `\([Y_{t_1}, Y_{t_2}, \ldots, Y_{t_n}]'\)` es una distribución normal `\(n-\)`variante.
 
@@ -241,7 +288,76 @@ Una **serie estacionaria** es:
 
 ---
 
+## Autocorrelación
 
+**Covarianza** y **correlación**: miden el grado de **relación lineal** entre dos variables `\(y\)` y `\(X\)`.
+
+**Autocovarianza** y **autocorrelación**: miden la relación lineal entre los **valores retardados** de una serie temporal `\(y\)`.
+
+Medimos la relación entre:
+
+  * `\(y_{t}\)` y `\(y_{t-1}\)`
+  * `\(y_{t}\)` y `\(y_{t-2}\)`
+  * `\(y_{t}\)` y `\(y_{t-3}\)`
+  * etc.
+
+---
+
+## Autocorrelación
+
+Denotamos la autocovarianza muestral con retardo `\(k\)` por `\(c_k\)` y la autocorrelación muestral con retardo `\(k\)` por `\(r_k\)`.  Entonces definimos
+
+`\(c_k = \frac{1}{T}\sum_{t=k+1}^T (y_t-\bar{y})(y_{t-k}-\bar{y})\)`
+
+y
+
+`\(r_{k} = c_k/c_0\)`
+
+
+  * `\(r_1\)` indica cómo se relacionan los valores sucesivos de `\(y\)`
+  * `\(r_2\)` indica cómo se relacionan los valores de `\(y\)` con dos períodos de diferencia
+  * `\(r_k\)` es *casi* lo mismo que la correlación muestral entre `\(y_t\)` y `\(y_{t-k}\)`.
+
+---
+
+## Autocovarianzas teóricas
+
+- La **autocovarianza de orden `\(k\)`** `\((k &gt; 0)\)` de un proceso `\((Y_t)\)` estacionario se representa con el símbolo `\(\gamma_k\)` y se define como `\(\gamma_k \equiv Cov(Y_t, Y_{t+k})\)`.
+
+`$$\begin{array}{|cc|}
+\hline
+Media  &amp; \mu_Y \equiv E(Yt) \\
+Varianza:  &amp; \sigma^2_Y \equiv Var(Y_t) \equiv E[(Y_t - \mu_Y)^2]  \\
+Autocov. orden\; k:  &amp; \gamma_k \equiv Cov(Y_t, Y_{t+k}) \equiv E[(Y_t - \mu_Y)(Y_{t+k} - \mu_Y)](k=1,\ldots) \\
+\hline
+\end{array}$$`
+
+
+- La autocovarianza de orden `\(k\)` de `\((Y_t)\)` es la covarianza entre cualquier par de componentes de `\((Y_t)\)` separados entre sí por un intervalo temporal o **retardo** `\((k &gt; 0)\)` dado.
+
+- La autocovarianza de orden cero como `\(\gamma_k \equiv Cov(Y_t, Y_t) \equiv Var(Y_t)\)`, que es la varianza del proceso estacionario `\((Y_t)\)`   
+
+- La secuencia `\((\gamma_k:k =0, 1, 2, \ldots)\)` se denomina **la función de autocovarianza** del proceso estacionario `\((Y_t)\)`.
+
+
+---
+
+## Autocorrelaciones simples teóricas
+
+- La **autocorrelación simple de orden `\(k\)`** `\((k&gt;0)\)` de un proceso `\((Y_t)\)` estacionario se representa con el símbolo `\(\rho_k\)` y se define como:
+
+`\(\rho_k \equiv \frac{Cov(Y_t, Y_{t+k})}{Var(Y_t)^{1/2}Var(Y_{t+k})^{1/2}} \equiv \frac{\gamma_k}{\gamma_0}\)`
+
+
+`$$\begin{array}{|cc|}
+\hline
+Autocorrelacion\; simple\; de\; orden \; k:  &amp; \displaystyle\frac{\gamma_k}{\gamma_0} (k=1,2,\ldots); \; \rho_0=1 \\
+\hline
+\end{array}$$`
+
+- Considerada como una función de `\(k\)`, `\((\rho_k: k = 1, 2, \ldots)\)` se denomina **la función de autocorrelación simple (ACF)** del proceso estacionario `\((Y_t)\)`. Dado que cada `\(\rho_k\)` es un coeficiente de correlación, suele decirse que la ACF de `\((Y_t)\)` represente la **duración** y la **intensidad** de la **memoria** del proceso `\((Y_t)\)`.
+
+---
 
 ## Proceso ruido blanco
 
