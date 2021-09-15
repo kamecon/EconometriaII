@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Procesos Estocásticos</title>
+    <title>Procesos Estocásticos y Series Temporales</title>
     <meta charset="utf-8" />
     <meta name="author" content="Kamal Romero" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
@@ -11,10 +11,10 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Procesos Estocásticos
+# Procesos Estocásticos y Series Temporales
 ## Econometría II
 ### Kamal Romero
-### (actualizado: 2021-09-13)
+### (actualizado: 2021-09-15)
 
 ---
 
@@ -307,7 +307,7 @@ Medimos la relación entre:
 
 Denotamos la autocovarianza muestral con retardo `\(k\)` por `\(c_k\)` y la autocorrelación muestral con retardo `\(k\)` por `\(r_k\)`.  Entonces definimos
 
-`\(c_k = \frac{1}{T}\sum_{t=k+1}^T (y_t-\bar{y})(y_{t-k}-\bar{y})\)`
+`$$c_k = \frac{1}{T}\sum_{t=k+1}^T (y_t-\bar{y})(y_{t-k}-\bar{y})$$`
 
 y
 
@@ -346,7 +346,7 @@ Autocov. orden\; k:  &amp; \gamma_k \equiv Cov(Y_t, Y_{t+k}) \equiv E[(Y_t - \mu
 
 - La **autocorrelación simple de orden `\(k\)`** `\((k&gt;0)\)` de un proceso `\((Y_t)\)` estacionario se representa con el símbolo `\(\rho_k\)` y se define como:
 
-`\(\rho_k \equiv \frac{Cov(Y_t, Y_{t+k})}{Var(Y_t)^{1/2}Var(Y_{t+k})^{1/2}} \equiv \frac{\gamma_k}{\gamma_0}\)`
+`$$\rho_k \equiv \frac{Cov(Y_t, Y_{t+k})}{Var(Y_t)^{1/2}Var(Y_{t+k})^{1/2}} \equiv \frac{\gamma_k}{\gamma_0}$$`
 
 
 `$$\begin{array}{|cc|}
@@ -356,6 +356,197 @@ Autocorrelacion\; simple\; de\; orden \; k:  &amp; \displaystyle\frac{\gamma_k}{
 \end{array}$$`
 
 - Considerada como una función de `\(k\)`, `\((\rho_k: k = 1, 2, \ldots)\)` se denomina **la función de autocorrelación simple (ACF)** del proceso estacionario `\((Y_t)\)`. Dado que cada `\(\rho_k\)` es un coeficiente de correlación, suele decirse que la ACF de `\((Y_t)\)` represente la **duración** y la **intensidad** de la **memoria** del proceso `\((Y_t)\)`.
+
+---
+
+## PACF teórica
+
+
+- La **autocorrelación parcial de orden `\(k\)`** de un proceso `\((Y_t)\)` estacionario se define como el parámetro `\(\phi_{kk}\)` en la regresión:
+
+`$$\tilde{Y_t} = \phi_{k0} + \phi_{k1}\tilde{Y}_{t-1} + \phi_{k2}\tilde{Y}_{t-2} + \ldots + \phi_{kk}\tilde{Y}_{t-k} + U_t$$`
+
+- Donde `\(\tilde{Y}_{t-i} \equiv Y_{t-i} - \mu_Y \; (i=0,1,\ldots,k)\)` y `\(U_t\)` es independiente de `\(Y_{t-i}\)` para todo `\(i \geq 1\)`
+
+- Además, `\(\triangle Y_t = \phi_{kk} \times \triangle Y_{t-k}\)` cuando `\(\triangle Y_{t-1} = \triangle Y_{t-2} = \ldots = \triangle Y_{t-k+1} = \triangle U_{t} =0\)`.
+
+- `\(\phi_{kk}\)` representa el **efecto parcial** o **ceteris paribus** de `\(\triangle Y_{t-k}\)` sobre `\(\triangle Y_{t}\)`.
+
+- `\(\phi_{kk}\)` es una medida del grado de asociación lineal entre dos componentes cualesquiera de `\((Y_t)\)` separados entre sí por el retardo `\(k\)` dado, que **no** es debida a la posible correlación entre los componentes de `\((Y_t)\)` que se encuentran entre ambos.
+
+
+---
+
+## PACF teórica
+
+- A partir de la regresión anterior, puede comprobarse que `\(\phi_{kk}=|A_k|/|B_k|\)`, donde
+
+`$$A_k \equiv \left(
+               \begin{array}{cccccc}
+                 1 &amp; \rho_1 &amp; \rho_2 &amp; \cdots &amp; \rho_{k-2} &amp; \rho_1 \\
+                 \rho_1 &amp; 1 &amp; \rho_1 &amp; \cdots &amp; \rho_{k-3} &amp; \rho_2 \\
+                 \rho_2 &amp; \rho_1 &amp; 1 &amp; \cdots &amp; \rho_{k-4} &amp; \rho_3 \\
+                 \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\
+                 \rho_{k-1} &amp; \rho_{k-2} &amp; \rho_{k-3} &amp; \cdots &amp; \rho_{1} &amp; \rho_k \\
+               \end{array}
+             \right)$$`
+             
+`$$B_k \equiv \left(
+               \begin{array}{cccccc}
+                 1 &amp; \rho_1 &amp; \rho_2 &amp; \cdots &amp; \rho_{k-2} &amp; \rho_{k-1} \\
+                 \rho_1 &amp; 1 &amp; \rho_1 &amp; \cdots &amp; \rho_{k-3} &amp; \rho_{k-2} \\
+                 \rho_2 &amp; \rho_1 &amp; 1 &amp; \cdots &amp; \rho_{k-4} &amp; \rho_{k-3} \\
+                 \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\
+                 \rho_{k-1} &amp; \rho_{k-2} &amp; \rho_{k-3} &amp; \cdots &amp; \rho_{1} &amp; 1 \\
+               \end{array}\right)$$`
+
+
+---
+
+## PACF teórica
+
+- En particular, para `\(k=1,2,3\)` resulta que:
+
+`$$\phi_{11} = \rho_1 , \;\; \phi_{22} = \frac{\left|\begin{array}{cc}
+                                             1 &amp; \rho_1 \\
+                                             \rho_1 &amp; \rho_2 \\
+                                           \end{array}\right|}{\left|\begin{array}{cc}
+                                             1 &amp; \rho_1 \\
+                                             \rho_1 &amp; 1 \\
+                                           \end{array}\right|} = \frac{\rho_2-\rho^2_1}{1-\rho_1^2}$$`
+
+---
+
+ ## PACF teórica
+
+- Lo que muestra la anterior expresión es que cada coeficiente de autocorrelación parcial `\(\phi_{kk}\)` de un proceso estrictamente estacionario es una función concreta de los coeficientes de autocorrelación simple `\(\rho_1, \rho_2, \ldots, \rho_k\)` `\((k=1,2,3, \ldots)\)`.
+
+- Considerada como una función del retardo `\(k\)`, la secuencia `\((\phi_{kk}:k=1,2,\ldots)\)` se denomina **la función de autocorrelación parcial (PACF)**
+
+`$$\begin{array}{|cc|}
+\hline
+Autocorrelación\; parcial\; de\; orden\; k: &amp; \phi_{kk}= \frac{|A_k|}{|B_k|} (k=1,2,\ldots); \phi_{11} = \rho_1 \\
+\hline
+\end{array}$$`
+
+---
+
+## Problema de estimación
+
+
+- Si una muestra `\(Y \equiv [Y_1, Y_2, \ldots, Y_N]'\)` **no procede de un proceso estacionario**, entonces su vector de medias y su matriz de varianzas-covarianzas son:
+ 
+`$${\mu} \equiv E(Y) = \left(
+                        \begin{array}{c}
+                          \mu_1 \\
+                          \mu_2 \\
+                          \vdots \\
+                          \mu_N \\
+                        \end{array}
+                      \right)$$`
+ 
+ 
+`$$\Sigma \equiv Var(Y) = \left(
+                          \begin{array}{cccc}
+                             \sigma^2_1 &amp; \sigma_{12} &amp; \cdots &amp; \sigma_{1N} \\
+                             \sigma_{21} &amp; \sigma^2_2 &amp; \cdots &amp; \sigma_{2N} \\
+                             \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+                             \sigma_{N1} &amp; \sigma_{N2} &amp; \cdots &amp; \sigma^2_N \\
+                           \end{array}\right)$$`
+                       
+                       
+- Las anteriores expresiones contienen `\(N+N(N+1)/2\)` parámetros distintos. No pueden estimarse con precisión este número de parámetros utilizando tan solo una única serie temporal `\(y \equiv (y_1, y_2, \ldots, y_N)'\)` de `\(N\)` observaciones. 
+
+- Si utilizamos una serie de tiempo que procede de un proceso estacionario, reducimos el número de parámetros a estimar
+
+---
+
+## Problema de estimación
+
+
+- Si una muestra `\(Y \equiv [Y_1, Y_2, \ldots, Y_N]'\)` procede de un proceso estacionario, entonces su vector de medias y su matriz de varianzas-covarianzas son:
+ 
+`$${\mu} \equiv E(Y) = \left(
+                        \begin{array}{c}
+                          \mu_Y \\
+                          \mu_Y \\
+                          \vdots \\
+                          \mu_Y \\
+                        \end{array}
+                      \right)$$`
+ 
+`$$\Sigma \equiv Var(Y) = \left(
+                          \begin{array}{cccc}
+                             \gamma_0 &amp; \gamma_1 &amp; \cdots &amp; \gamma_{N-1} \\
+                             \gamma_1 &amp; \gamma_0 &amp; \cdots &amp; \gamma_{N-2} \\
+                             \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+                             \gamma_{N-1} &amp; \gamma_{N-2} &amp; \cdots &amp; \gamma_0 \\
+                           \end{array}\right)$$`
+
+                       
+ 
+---
+
+## Problema de estimación
+
+`$$\Sigma =\sigma^2_Y\left(
+                \begin{array}{cccc}                                                                                                        1 &amp; \rho_1 &amp; \cdots &amp; \rho_{N-1} \\
+                  \rho_1 &amp; 1 &amp; \cdots &amp; \rho_{N-2} \\
+                  \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+                  \rho_{N-1} &amp; \rho_{N-2} &amp; \cdots &amp; 1 \\
+                \end{array}\right)$$`
+                                                                                              
+- Las anteriores expresiones contienen `\(1+N\)` parámetros distintos. A pesar que la hipótesis de estacionariedad, no pueden estimarse con precisión `\(1+N\)` parámetros utilizando tan solo una única serie temporal `\(y \equiv (y_1, y_2, \ldots, y_N)'\)` de `\(N\)` observaciones.
+
+- La solución a este problema pasa por expresar la media y la función de autocovarianza de `\(Y_t\)` en términos de un número reducido de parámetros, a través del uso de un **modelo ARMA** para `\((Y_t)\)`.
+
+
+---
+
+## ACF y PACF muestrales
+
+
+- En la práctica es imposible estimar a partir de una serie temporal de `\(N\)` observaciones, la media, la varianza, la ACF y PACF del proceso estacionario del que supuestamente procede dicha serie.
+
+- Sin embargo, sí pueden estimarse con cierta precisión las `\(K\)` primeras autocorrelaciones simples y parciales del proceso estocástico a través de una serie temporal de `\(N\)` observaciones, siempre que `\(K\)` sea un número bastante más reducido que `\(N\)`.
+
+- La **media muestral** y la **varianza muestral** de una muestra asociada con una serie temporal son:
+
+`$$\widehat{\mu}_Y \equiv \frac{1}{N}\sum_{t=1}^N Y_t\;\;\; \text{y} \;\;\;\widehat{\sigma}_Y^2 \equiv \frac{1}{N} \sum_{t=1}^N (Y_t-\widehat{\mu}_Y)^2$$`
+
+
+
+---
+
+## ACF muestral
+
+- La **correlación simple muestral de orden `\(k\)`** `\((k&gt;0)\)` de una muestra asociada a una serie temporal es:
+`$$\widehat{\rho}_k \equiv \frac{\widehat{\gamma}_k}{\widehat{\gamma}_0},(k=1,2,\ldots)$$`
+
+donde:
+
+`$$\begin{array}{rcl}
+\widehat{\gamma}_k &amp; \equiv &amp; \displaystyle\frac{1}{N} \displaystyle\sum_{t=1}^{N-k} (Y_t-\widehat{\mu}_Y)(Y_{t+k}-\widehat{\mu}_Y)\\
+                   &amp; \equiv &amp; \displaystyle\frac{1}{N} \displaystyle\sum_{t=k+1}^N (Y_{t-k}-\widehat{\mu}_Y)(Y_t-\widehat{\mu}_Y) \; (k=0,1,2,\ldots)\\
+                   \end{array}$$`
+
+---
+
+## ACF muestral
+
+- Los estimadores `\(\widehat{\gamma}_k\)` y `\(\widehat{\rho}_k\)` proporcionan **estimaciones** numéricas `\(c_k\)` y `\(r_k\)`, respectivamente,
+
+`$$c_k \equiv \frac{1}{N} \sum_{t=1}^{N-k} (y_t-\hat{y})(y_{t+k}-\hat{y}) \equiv \frac{1}{N} \sum_{t=k+1}^{N} (y_{t-k}-\hat{y})(y_{t}-\hat{y}) \; (k=0,1,2,\ldots)$$`
+
+`$$r_k = \frac{c_k}{c_0} \; (k=1,2,\ldots)$$`
+
+---
+
+## ACF muestral
+
+- La secuencia de valores numéricos `\((r_k:k=1,2,\ldots)\)` se denomina la **ACF muestral** de la serie temporal `\(y_1, y_2, \ldots, y_N\)`. La representación gráfica de la ACF muestral de una serie se denomina el **correlograma** de dicha serie.
+
+- Bajo ciertas condiciones, `\((\hat{\rho}_k) \sim NIID(0,1/N)\)`, de manera que cualquier autocorrelación simple `\(\rho_k\)` `\((k \geq 1)\)` de `\((Y_t)\)` puede considerarse **individualmente** significativa al 5\% cuando `\(|r_k| &gt; 1.96 / \sqrt{N}\)`.
 
 ---
 
