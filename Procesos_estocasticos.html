@@ -14,7 +14,7 @@ class: center, middle, inverse, title-slide
 # Procesos Estocásticos y Series Temporales
 ## Econometría II
 ### Kamal Romero
-### (actualizado: 2021-09-16)
+### (actualizado: 2021-09-19)
 
 ---
 
@@ -546,8 +546,122 @@ donde:
 
 - La secuencia de valores numéricos `\((r_k:k=1,2,\ldots)\)` se denomina la **ACF muestral** de la serie temporal `\(y_1, y_2, \ldots, y_N\)`. La representación gráfica de la ACF muestral de una serie se denomina el **correlograma** de dicha serie.
 
-- Bajo ciertas condiciones, `\((\hat{\rho}_k) \sim NIID(0,1/N)\)`, de manera que cualquier autocorrelación simple `\(\rho_k\)` `\((k \geq 1)\)` de `\((Y_t)\)` puede considerarse **individualmente** significativa al 5\% cuando `\(|r_k| &gt; 1.96 / \sqrt{N}\)`.
+- Bajo ciertas condiciones, `\((\hat{\rho}_k) \sim NIID(0,1/N)\)`, de manera que cualquier autocorrelación simple `\(\rho_k\)` `\((k \geq 1)\)` de `\((Y_t)\)` puede considerarse **individualmente** significativa al 5% cuando `\(|r_k| &gt; 1.96 / \sqrt{N}\)`.
 
+---
+
+## Autocorrelación: Ejemplo (estacionalidad)
+
+![](Procesos_estocasticos_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+
+---
+
+## Autocorrelación: Ejemplo (estacionalidad)
+
+Resultados de los 9 primeros retardos de los datos de la producción de cerveza:
+
+
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; r1 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r2 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r3 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r4 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r5 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r6 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r7 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r8 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r9 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 0.421 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.057 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.059 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.188 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.287 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.424 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.343 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.156 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.008 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;img src="Procesos_estocasticos_files/figure-html/beeracf-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Autocorrelación: Ejemplo (estacionalidad)
+
+  * `\(r_{4}\)` más alto que para los otros retardos. Esto se debe al **patrón estacional de los datos**: los picos tienden a estar separados por **4 trimestres** y los mínimos tienden a estar separados por **2 trimestres**.
+  * `\(r_2\)` es más negativo que para los otros retardos porque los mínimos tienden a estar 2 trimestres por detrás de los máximos.
+  * Juntos, las autocorrelaciones en los retardos `\(1, 2, \dots\)`, constituyen la **autocorrelación** o ACF.
+  * El gráfico se conoce como **correlograma**.
+
+
+&lt;img src="Procesos_estocasticos_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+ 
+---
+
+
+## Tendencia y estacionalidad en los gráficos ACF
+
+- Cuando los datos tienen una tendencia, las autocorrelaciones para retardos pequeños tienden a ser grandes y positivas.
+
+- Cuando los datos son estacionales, las autocorrelaciones serán mayores en los retardos estacionales (es decir, en los múltiplos de la frecuencia estacional)
+
+- Cuando los datos tienen tendencia y son estacionales, se observa una combinación de estos efectos
+
+
+---
+
+## Autocorrelación: Ejemplo (tendencia)
+
+### Precio de la acción de Google
+
+&lt;img src="Procesos_estocasticos_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Autocorrelación: Ejemplo (tendencia)
+
+### Precio de la acción de Google
+
+
+&lt;img src="Procesos_estocasticos_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+
+- Cuando los datos tienen una tendencia, las autocorrelaciones para retardos pequeños tienden a ser grandes y positivas.
+
+---
+
+## Producción mensual de electricidad en Australia
+
+&lt;img src="Procesos_estocasticos_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Producción mensual de electricidad en Australia
+
+&lt;img src="Procesos_estocasticos_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Producción mensual de electricidad en Australia
+
+El gráfico muestra una clara tendencia y estacionalidad.
+
+Las mismas características se reflejan en el ACF.
+
+  * El ACF, que decae lentamente, indica una tendencia.
+  
+  * Los picos del ACF en los retardos 12, 24 y 36, indican una estacionalidad de longitud 12.
+  
 ---
 
 ## Proceso ruido blanco
@@ -566,6 +680,46 @@ donde:
 - Lo vemos con menos datos para que se visalize mejor
 
 &lt;img src="Procesos_estocasticos_files/figure-html/ruido02-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Proceso ruido blanco
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; r1 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r2 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r3 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r4 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r5 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r6 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r7 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r8 &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; r9 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; -0.093 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.006 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.047 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.039 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.066 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.061 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.100 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.201 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.179 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;img src="Procesos_estocasticos_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+
+- Autocorrelación muestral para procesos ruido blanco 
+
+- Esperamos que cada autocorrelación sea cercana a cero
 
 
 ---

@@ -27,14 +27,9 @@ pacman::p_load(tidyverse, kableExtra, quantmod, fredr, patchwork, fpp2)
 
 ```{r er0librerias, echo = FALSE, warning=FALSE, message=FALSE, include=FALSE}
 #Cargamos los datos
-getSymbols(c('EURUSD=X','EURGBP=X','EURJPY=X'))
-euro_dolar <- `EURUSD=X`
-euro_libra <- `EURGBP=X`
-euro_yen <- `EURJPY=X`
-#Calculamos las variaciones
-euro_dolar$adjusteddiff <- diff(euro_dolar$`EURUSD=X.Adjusted` )
-euro_libra$adjusteddiff <- diff(euro_libra$`EURGBP=X.Adjusted` )
-euro_yen$adjusteddiff <- diff(euro_yen$`EURJPY=X.Adjusted`)
+load("data/euro_dolar.RData")
+load("data/euro_libra.RData")
+load("data/euro_yen.RData")
 
 ```
 
@@ -629,8 +624,118 @@ $$r_k = \frac{c_k}{c_0} \; (k=1,2,\ldots)$$
 
 - La secuencia de valores numéricos $(r_k:k=1,2,\ldots)$ se denomina la **ACF muestral** de la serie temporal $y_1, y_2, \ldots, y_N$. La representación gráfica de la ACF muestral de una serie se denomina el **correlograma** de dicha serie.
 
-- Bajo ciertas condiciones, $(\hat{\rho}_k) \sim NIID(0,1/N)$, de manera que cualquier autocorrelación simple $\rho_k$ $(k \geq 1)$ de $(Y_t)$ puede considerarse **individualmente** significativa al 5\% cuando $|r_k| > 1.96 / \sqrt{N}$.
+- Bajo ciertas condiciones, $(\hat{\rho}_k) \sim NIID(0,1/N)$, de manera que cualquier autocorrelación simple $\rho_k$ $(k \geq 1)$ de $(Y_t)$ puede considerarse **individualmente** significativa al 5% cuando $|r_k| > 1.96 / \sqrt{N}$.
 
+---
+
+## Autocorrelación: Ejemplo (estacionalidad)
+
+```{r fig.width=12, fig.height=7.5}
+autoplot(window(ausbeer, start=1992)) + xlab("Año") + ylab("megalitros") +
+  ggtitle("Producción trimestral de cerveza en Australia")
+```
+
+
+---
+
+## Autocorrelación: Ejemplo (estacionalidad)
+
+Resultados de los 9 primeros retardos de los datos de la producción de cerveza:
+
+
+
+```{r, echo=FALSE}
+beeracf <- matrix(acf(c(beer), lag.max=9,
+                      plot=FALSE)$acf[-1,,1], nrow=1)
+colnames(beeracf) <- paste("r",1:9,sep="")
+knitr::kable(beeracf, booktabs=TRUE, format = "html",
+             align="c", digits=3, 
+             format.args=list(nsmall=3))
+```
+
+```{r beeracf, fig.width=10, fig.height=5, fig.align='center'}
+ggAcf(beer) + labs(title = "Producción de cerveza en Australia")
+```
+
+---
+
+## Autocorrelación: Ejemplo (estacionalidad)
+
+  * $r_{4}$ más alto que para los otros retardos. Esto se debe al **patrón estacional de los datos**: los picos tienden a estar separados por **4 trimestres** y los mínimos tienden a estar separados por **2 trimestres**.
+  * $r_2$ es más negativo que para los otros retardos porque los mínimos tienden a estar 2 trimestres por detrás de los máximos.
+  * Juntos, las autocorrelaciones en los retardos $1, 2, \dots$, constituyen la **autocorrelación** o ACF.
+  * El gráfico se conoce como **correlograma**.
+
+
+```{r, fig.align='center', fig.width=10, fig.height=3.5}
+ggAcf(beer) + labs(title = "Producción de cerveza en Australia")
+```
+ 
+---
+
+
+## Tendencia y estacionalidad en los gráficos ACF
+
+- Cuando los datos tienen una tendencia, las autocorrelaciones para retardos pequeños tienden a ser grandes y positivas.
+
+- Cuando los datos son estacionales, las autocorrelaciones serán mayores en los retardos estacionales (es decir, en los múltiplos de la frecuencia estacional)
+
+- Cuando los datos tienen tendencia y son estacionales, se observa una combinación de estos efectos
+
+
+---
+
+## Autocorrelación: Ejemplo (tendencia)
+
+### Precio de la acción de Google
+
+```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=5.5}
+autoplot(goog)  + labs(title = "Precio de la acción de Google")
+```
+
+
+---
+
+## Autocorrelación: Ejemplo (tendencia)
+
+### Precio de la acción de Google
+
+
+```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=5.5}
+ggAcf(goog, lag.max=100) + labs(title = "Precio de la acción de Google")
+```
+
+- Cuando los datos tienen una tendencia, las autocorrelaciones para retardos pequeños tienden a ser grandes y positivas.
+
+---
+
+## Producción mensual de electricidad en Australia
+
+```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=5.5}
+elec2 <- window(elec, start=1980)
+autoplot(elec2) + labs(title = "Producción mensual de electricidad en Australia")
+```
+
+---
+
+## Producción mensual de electricidad en Australia
+
+```{r , warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=5.5}
+ggAcf(elec2, lag.max=48) + labs(title = "Producción mensual de electricidad en Australia")
+```
+
+---
+
+## Producción mensual de electricidad en Australia
+
+El gráfico muestra una clara tendencia y estacionalidad.
+
+Las mismas características se reflejan en el ACF.
+
+  * El ACF, que decae lentamente, indica una tendencia.
+  
+  * Los picos del ACF en los retardos 12, 24 y 36, indican una estacionalidad de longitud 12.
+  
 ---
 
 ## Proceso ruido blanco
@@ -639,7 +744,7 @@ $$r_k = \frac{c_k}{c_0} \; (k=1,2,\ldots)$$
 
 - Donde $E(w_t)=0\;\;\; var(w_t)=\sigma^2 \;\;\; \forall t$
 
-```{r ruido01, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=7.5}
+```{r ruido01, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=7}
 
 w = rnorm(500,0,1)
 
@@ -661,6 +766,28 @@ w1 = rnorm(100,0,1)
 plot(w1 %>% ts, main="Ruido Blanco", xlab="Tiempo", ylab="Serie", type="b", col=2)
 
 ```
+
+
+---
+
+## Proceso ruido blanco
+
+```{r, echo=FALSE}
+wracf <- matrix(acf(c(w1), lag.max=9,
+                      plot=FALSE)$acf[-1,,1], nrow=1)
+colnames(wracf) <- paste("r",1:9,sep="")
+knitr::kable(wracf, booktabs=TRUE,
+             align="c", digits=3,
+             format.args=list(nsmall=3))
+```
+
+```{r wnacfwarning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=4}
+ggAcf(w1) + labs(title = "Proceso ruido blanco")
+```
+
+- Autocorrelación muestral para procesos ruido blanco 
+
+- Esperamos que cada autocorrelación sea cercana a cero
 
 
 ---
