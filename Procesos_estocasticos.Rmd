@@ -645,7 +645,7 @@ Resultados de los 9 primeros retardos de los datos de la producción de cerveza:
 
 
 ```{r, echo=FALSE}
-beeracf <- matrix(acf(c(beer), lag.max=9,
+beeracf <- matrix(acf(c(window(ausbeer, start=1992)), lag.max=9,
                       plot=FALSE)$acf[-1,,1], nrow=1)
 colnames(beeracf) <- paste("r",1:9,sep="")
 knitr::kable(beeracf, booktabs=TRUE, format = "html",
@@ -654,7 +654,7 @@ knitr::kable(beeracf, booktabs=TRUE, format = "html",
 ```
 
 ```{r beeracf, fig.width=10, fig.height=5, fig.align='center'}
-ggAcf(beer) + labs(title = "Producción de cerveza en Australia")
+ggAcf(window(ausbeer, start=1992)) + labs(title = "Producción de cerveza en Australia")
 ```
 
 ---
@@ -668,7 +668,7 @@ ggAcf(beer) + labs(title = "Producción de cerveza en Australia")
 
 
 ```{r, fig.align='center', fig.width=10, fig.height=3.5}
-ggAcf(beer) + labs(title = "Producción de cerveza en Australia")
+ggAcf(window(ausbeer, start=1992)) + labs(title = "Producción de cerveza en Australia")
 ```
  
 ---
@@ -689,7 +689,7 @@ ggAcf(beer) + labs(title = "Producción de cerveza en Australia")
 
 ### Precio de la acción de Google
 
-```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=5.5}
+```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=7}
 autoplot(goog)  + labs(title = "Precio de la acción de Google")
 ```
 
@@ -701,7 +701,7 @@ autoplot(goog)  + labs(title = "Precio de la acción de Google")
 ### Precio de la acción de Google
 
 
-```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=5.5}
+```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6}
 ggAcf(goog, lag.max=100) + labs(title = "Precio de la acción de Google")
 ```
 
@@ -711,7 +711,7 @@ ggAcf(goog, lag.max=100) + labs(title = "Precio de la acción de Google")
 
 ## Producción mensual de electricidad en Australia
 
-```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=5.5}
+```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=7}
 elec2 <- window(elec, start=1980)
 autoplot(elec2) + labs(title = "Producción mensual de electricidad en Australia")
 ```
@@ -720,7 +720,7 @@ autoplot(elec2) + labs(title = "Producción mensual de electricidad en Australia
 
 ## Producción mensual de electricidad en Australia
 
-```{r , warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=5.5}
+```{r , warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=7}
 ggAcf(elec2, lag.max=48) + labs(title = "Producción mensual de electricidad en Australia")
 ```
 
@@ -835,6 +835,41 @@ plot(v %>% ts, main="Media Móvil", xlab="Tiempo", ylab="Serie", type="l", col=2
 
 ---
 
+## Proceso media movil: ACF
+
+
+```{r maacf, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6}
+ggAcf(v) + labs(title = "Proceso media movil")
+```
+
+---
+
+
+## Proceso media movil: ACF
+
+$$x_t=w_t+0.5w_{t-1}+0.24w_{t-2}$$
+
+```{r maacf02, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6}
+b1 <- 0.5
+b2 <- 0.24
+v2 <- arima.sim(list(ma = c(b1,b2)), n=100, sd=2)
+ggAcf(v2) + labs(title = "Proceso media movil")
+```
+
+---
+
+## Proceso media movil: ACF
+
+$$x_t=w_t+0.3w_{t-1}$$
+
+```{r maacf03, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6}
+v3 <- arima.sim(list(ma = c(0.3)), n=100, sd=2)
+ggAcf(v3) + labs(title = "Proceso media movil")
+```
+
+---
+
+
 ## Procesos autoregresivos 
 
 - Proceso autoregresivo de orden 2 $x_t = x_{t-1} - 0.9x_{t-2} + w_t$
@@ -852,6 +887,69 @@ plot(ts(z), main="Proceso autoregresivo", xlab="tiempo", ylab="Serie")
 
 
 ---
+
+## Procesos autoregresivos 
+
+- Proceso autoregresivo de orden 2 $x_t = x_{t-1} - 0.9x_{t-2} + w_t$
+
+```{r aracf, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6}
+ggAcf(z) + labs(title = "Proceso autoregresivo")
+```
+
+
+---
+
+## Procesos autoregresivos 
+
+- Proceso autoregresivo de orden 2 $x_t = x_{t-1} - 0.9x_{t-2} + w_t$
+
+```{r arpacf1, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6}
+ggPacf(z) + labs(title = "PACF Proceso autoregresivo")
+```
+
+
+---
+
+## Procesos autoregresivos 
+
+- Proceso autoregresivo de orden 1 $x_t = 0.8x_{t-1} + w_t$
+
+```{r ar02, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=7.5}
+
+phi= 0.8          
+z1=rep(0,500)                                 
+z1[1]=0
+for (i in 3:500) z1[i]=phi*z1[i-1]+w[i]   
+plot(ts(z1), main="Proceso autoregresivo orden 1", xlab="tiempo", ylab="Serie")  
+
+```
+
+
+
+---
+
+## Procesos autoregresivos 
+
+- Proceso autoregresivo de orden 1 $x_t = 0.8x_{t-1} + w_t$
+
+```{r aracf02, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6}
+ggAcf(z1) + labs(title = "Proceso autoregresivo orden 1")
+```
+
+
+---
+
+## Procesos autoregresivos 
+
+- Proceso autoregresivo de orden 2 $x_t = x_{t-1} - 0.9x_{t-2} + w_t$
+
+```{r arpacf02, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6}
+ggPacf(z1) + labs(title = "PACF Proceso autoregresivo orden 1")
+```
+
+
+---
+
 
 ## Random walk (Paseo aleatorio)
 

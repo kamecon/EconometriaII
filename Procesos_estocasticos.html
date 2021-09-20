@@ -14,7 +14,7 @@ class: center, middle, inverse, title-slide
 # Procesos Estocásticos y Series Temporales
 ## Econometría II
 ### Kamal Romero
-### (actualizado: 2021-09-19)
+### (actualizado: 2021-09-20)
 
 ---
 
@@ -579,15 +579,15 @@ Resultados de los 9 primeros retardos de los datos de la producción de cerveza:
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; 0.421 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 0.057 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; -0.059 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; -0.188 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; -0.287 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; -0.424 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; -0.343 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; -0.156 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; -0.008 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.102 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.657 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.060 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.869 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.089 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.635 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.054 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.832 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.108 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -703,14 +703,14 @@ Las mismas características se reflejan en el ACF.
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="text-align:center;"&gt; -0.093 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 0.006 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 0.047 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; -0.039 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 0.066 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.097 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.063 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.075 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.024 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; -0.061 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 0.100 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; -0.201 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; -0.179 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.008 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.112 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.249 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -749,6 +749,31 @@ Las mismas características se reflejan en el ACF.
 
 ---
 
+## Proceso media movil: ACF
+
+
+&lt;img src="Procesos_estocasticos_files/figure-html/maacf-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+## Proceso media movil: ACF
+
+`$$x_t=w_t+0.5w_{t-1}+0.24w_{t-2}$$`
+
+&lt;img src="Procesos_estocasticos_files/figure-html/maacf02-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Proceso media movil: ACF
+
+`$$x_t=w_t+0.3w_{t-1}$$`
+
+&lt;img src="Procesos_estocasticos_files/figure-html/maacf03-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+
 ## Procesos autoregresivos 
 
 - Proceso autoregresivo de orden 2 `\(x_t = x_{t-1} - 0.9x_{t-2} + w_t\)`
@@ -757,6 +782,53 @@ Las mismas características se reflejan en el ACF.
 
 
 ---
+
+## Procesos autoregresivos 
+
+- Proceso autoregresivo de orden 2 `\(x_t = x_{t-1} - 0.9x_{t-2} + w_t\)`
+
+&lt;img src="Procesos_estocasticos_files/figure-html/aracf-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Procesos autoregresivos 
+
+- Proceso autoregresivo de orden 2 `\(x_t = x_{t-1} - 0.9x_{t-2} + w_t\)`
+
+&lt;img src="Procesos_estocasticos_files/figure-html/arpacf1-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Procesos autoregresivos 
+
+- Proceso autoregresivo de orden 1 `\(x_t = 0.8x_{t-1} + w_t\)`
+
+&lt;img src="Procesos_estocasticos_files/figure-html/ar02-1.png" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+
+## Procesos autoregresivos 
+
+- Proceso autoregresivo de orden 1 `\(x_t = 0.8x_{t-1} + w_t\)`
+
+&lt;img src="Procesos_estocasticos_files/figure-html/aracf02-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Procesos autoregresivos 
+
+- Proceso autoregresivo de orden 2 `\(x_t = x_{t-1} - 0.9x_{t-2} + w_t\)`
+
+&lt;img src="Procesos_estocasticos_files/figure-html/arpacf02-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
 
 ## Random walk (Paseo aleatorio)
 
