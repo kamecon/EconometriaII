@@ -976,3 +976,189 @@ lines(delta*(0:500), lty = "dashed", col=2)
 
 ```
 
+---
+
+## Estacionariedad
+
+
+- Si $\{y_t\}$ es una serie temporal estacionaria, entonces para todo $s$, la distribución de $(y_t,\dots,y_{t+s})$ no depende de $t$.
+
+- Las transformaciones ayudan a **estabilizar la varianza**.
+
+- Para la modelización ARIMA, también necesitamos **estabilizar la media**.
+
+---
+
+## No estacionariedad en la media
+
+Identificación de series no estacionarias
+
+
+* Gráfico de la serie temporal.
+
+* La ACF de los datos estacionarios cae a cero con relativa rapidez
+
+* La ACF de los datos no estacionarios disminuye lentamente.
+
+* Para los datos no estacionarios, el valor de $r_1$ es a menudo
+     grande y positivo.
+     
+---
+
+## Ejemplo: Indice Dow-Jones
+
+```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6, echo=FALSE}
+autoplot(dj) + ylab("Indice Dow-Jones") + xlab("Día")
+```
+
+
+---
+
+## Ejemplo: Indice Dow-Jones
+
+```{r , warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6, echo=FALSE}
+ggAcf(dj)
+```
+
+---
+
+## Ejemplo: Indice Dow-Jones
+
+```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6, echo=FALSE}
+autoplot(diff(dj)) + ylab("Variación del Indice Dow-Jones") + xlab("Día")
+```
+
+---
+
+## Ejemplo: Indice Dow-Jones
+
+```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6, echo=FALSE}
+ggAcf(diff(dj))
+```
+
+---
+
+## Diferenciación
+
+* La diferenciación ayuda a **estabilizar la media**.
+
+* La serie diferenciada es el *cambio* entre cada observación
+en la serie original: ${y'_t = y_t - y_{t-1}}$.
+
+* La serie diferenciada sólo tendrá valores $T-1$ ya que no es posible calcular una diferencia $y_1'$ para la primera observación.
+
+---
+
+## Diferenciación de segundo orden
+
+En ocasiones, los datos diferenciados no parecen estacionarios y puede ser necesario
+puede ser necesario diferenciar los datos una segunda vez:
+
+$$
+\begin{aligned}
+y''_{t}  &=  y'_{t}  - y'_{t - 1} \\
+&= (y_t - y_{t-1}) - (y_{t-1}-y_{t-2})\\
+&= y_t - 2y_{t-1} +y_{t-2}.
+\end{aligned}
+$$
+
+* $y_t''$ tendrá $T-2$ valores.
+
+* En la práctica, casi nunca es necesario ir más allá de las diferencias de segundo orden
+
+
+---
+
+## Diferencia estacional
+
+Una diferencia estacional es la diferencia entre una observación y la observación correspondiente del año anterior.
+$$y'_t = y_t - y_{t-m}$$
+donde $m=$ número de estaciones
+
+* Para datos mensuales $m=12$.
+
+* Para datos trimestrales $m=4$.
+
+---
+
+## Producción de electricidad en Australia
+
+Datos originales
+
+```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6, echo=FALSE}
+usmelec %>% autoplot()
+```
+
+---
+
+## Producción de electricidad en Australia
+
+Aplicamos logaritmo
+
+```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6, echo=FALSE}
+usmelec %>% log() %>% autoplot()
+```
+
+---
+
+## Producción de electricidad en Australia
+
+Aplicamos logaritmo + diferencia estacional (12 meses)
+
+```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6, echo=FALSE}
+usmelec %>% log() %>% diff(lag=12) %>%
+  autoplot()
+```
+
+---
+
+## Producción de electricidad en Australia
+
+Aplicamos logaritmo + diferencia estacional (12 meses) + diferencia regular (1)
+
+```{r, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=6, echo=FALSE}
+usmelec %>% log() %>% diff(lag=12) %>%
+  diff(lag=1) %>% autoplot()
+```
+
+---
+
+## Producción de electricidad en Australia
+
+* Las series diferenciadas estacionalmente están más cerca de ser estacionarias.
+
+* La no estacionariedad restante puede ser eliminada con una primera diferencia adicional.
+
+Si $y'_t = y_t - y_{t-12}$ denota una serie diferenciada estacionalmente, entonces la serie diferenciada dos veces 
+
+$$
+\begin{aligned}
+y^*_t &= y'_t - y'_{t-1} \\
+      &= (y_t - y_{t-12}) - (y_{t-1} - y_{t-13}) \\
+      &= y_t - y_{t-1} - y_{t-12} + y_{t-13}\: .
+\end{aligned}
+$$
+
+---
+
+## Diferencias estacionales
+
+Cuando se aplican tanto las diferencias estacionales como las primera diferencia
+
+* no hay ninguna diferencia en cuál de las dos se haga primero: el resultado será el mismo.
+
+* Si la estacionalidad es fuerte, recomendamos que se haga primero la diferenciación estacional porque a veces la serie resultante será estacionaria y no habrá necesidad de más primera diferencia.
+
+Es importante que si se utiliza la diferenciación, las diferencias sean interpretables.
+
+
+---
+
+## Interpretación de las diferencias
+
+* Las primeras diferencias son el cambio entre **una observación y la anterior**;
+
+* las diferencias estacionales son el cambio entre **un año y el anterior**.
+
+
+Pero si se toman las diferencias del tercer retardo para los datos anuales, por ejemplo, se obtiene un modelo que no puede interpretarse de forma razonable.

@@ -14,7 +14,7 @@ class: center, middle, inverse, title-slide
 # Procesos Estocásticos y Series Temporales
 ## Econometría II
 ### Kamal Romero
-### (actualizado: 2021-09-20)
+### (actualizado: 2021-09-21)
 
 ---
 
@@ -702,15 +702,15 @@ Las mismas características se reflejan en el ACF.
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; -0.093 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 0.097 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 0.063 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 0.075 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; 0.024 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; -0.061 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; -0.008 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; -0.112 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; -0.249 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.061 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.149 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.068 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.049 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -0.013 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.042 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.053 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.073 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.117 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -837,6 +837,175 @@ Las mismas características se reflejan en el ACF.
 - Paseo aleatorio con deriva `\(x_t = \delta+ x_{t-1} + w_t\)`
 
 &lt;img src="Procesos_estocasticos_files/figure-html/rw01-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Estacionariedad
+
+
+- Si `\(\{y_t\}\)` es una serie temporal estacionaria, entonces para todo `\(s\)`, la distribución de `\((y_t,\dots,y_{t+s})\)` no depende de `\(t\)`.
+
+- Las transformaciones ayudan a **estabilizar la varianza**.
+
+- Para la modelización ARIMA, también necesitamos **estabilizar la media**.
+
+---
+
+## No estacionariedad en la media
+
+Identificación de series no estacionarias
+
+
+* Gráfico de la serie temporal.
+
+* La ACF de los datos estacionarios cae a cero con relativa rapidez
+
+* La ACF de los datos no estacionarios disminuye lentamente.
+
+* Para los datos no estacionarios, el valor de `\(r_1\)` es a menudo
+     grande y positivo.
+     
+---
+
+## Ejemplo: Indice Dow-Jones
+
+&lt;img src="Procesos_estocasticos_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Ejemplo: Indice Dow-Jones
+
+&lt;img src="Procesos_estocasticos_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Ejemplo: Indice Dow-Jones
+
+&lt;img src="Procesos_estocasticos_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Ejemplo: Indice Dow-Jones
+
+&lt;img src="Procesos_estocasticos_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Diferenciación
+
+* La diferenciación ayuda a **estabilizar la media**.
+
+* La serie diferenciada es el *cambio* entre cada observación
+en la serie original: `\({y'_t = y_t - y_{t-1}}\)`.
+
+* La serie diferenciada sólo tendrá valores `\(T-1\)` ya que no es posible calcular una diferencia `\(y_1'\)` para la primera observación.
+
+---
+
+## Diferenciación de segundo orden
+
+En ocasiones, los datos diferenciados no parecen estacionarios y puede ser necesario
+puede ser necesario diferenciar los datos una segunda vez:
+
+$$
+`\begin{aligned}
+y''_{t}  &amp;=  y'_{t}  - y'_{t - 1} \\
+&amp;= (y_t - y_{t-1}) - (y_{t-1}-y_{t-2})\\
+&amp;= y_t - 2y_{t-1} +y_{t-2}.
+\end{aligned}`
+$$
+
+* `\(y_t''\)` tendrá `\(T-2\)` valores.
+
+* En la práctica, casi nunca es necesario ir más allá de las diferencias de segundo orden
+
+
+---
+
+## Diferencia estacional
+
+Una diferencia estacional es la diferencia entre una observación y la observación correspondiente del año anterior.
+`$$y'_t = y_t - y_{t-m}$$`
+donde `\(m=\)` número de estaciones
+
+* Para datos mensuales `\(m=12\)`.
+
+* Para datos trimestrales `\(m=4\)`.
+
+---
+
+## Producción de electricidad en Australia
+
+Datos originales
+
+&lt;img src="Procesos_estocasticos_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Producción de electricidad en Australia
+
+Aplicamos logaritmo
+
+&lt;img src="Procesos_estocasticos_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Producción de electricidad en Australia
+
+Aplicamos logaritmo + diferencia estacional (12 meses)
+
+&lt;img src="Procesos_estocasticos_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Producción de electricidad en Australia
+
+Aplicamos logaritmo + diferencia estacional (12 meses) + diferencia regular (1)
+
+&lt;img src="Procesos_estocasticos_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Producción de electricidad en Australia
+
+* Las series diferenciadas estacionalmente están más cerca de ser estacionarias.
+
+* La no estacionariedad restante puede ser eliminada con una primera diferencia adicional.
+
+Si `\(y'_t = y_t - y_{t-12}\)` denota una serie diferenciada estacionalmente, entonces la serie diferenciada dos veces 
+
+$$
+`\begin{aligned}
+y^*_t &amp;= y'_t - y'_{t-1} \\
+      &amp;= (y_t - y_{t-12}) - (y_{t-1} - y_{t-13}) \\
+      &amp;= y_t - y_{t-1} - y_{t-12} + y_{t-13}\: .
+\end{aligned}`
+$$
+
+---
+
+## Diferencias estacionales
+
+Cuando se aplican tanto las diferencias estacionales como las primera diferencia
+
+* no hay ninguna diferencia en cuál de las dos se haga primero: el resultado será el mismo.
+
+* Si la estacionalidad es fuerte, recomendamos que se haga primero la diferenciación estacional porque a veces la serie resultante será estacionaria y no habrá necesidad de más primera diferencia.
+
+Es importante que si se utiliza la diferenciación, las diferencias sean interpretables.
+
+
+---
+
+## Interpretación de las diferencias
+
+* Las primeras diferencias son el cambio entre **una observación y la anterior**;
+
+* las diferencias estacionales son el cambio entre **un año y el anterior**.
+
+
+Pero si se toman las diferencias del tercer retardo para los datos anuales, por ejemplo, se obtiene un modelo que no puede interpretarse de forma razonable.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
