@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
 
 ```{r librerias, echo = FALSE, warning=FALSE, message=FALSE}
 if (! ('pacman' %in% installed.packages())) install.packages('pacman')
-pacman::p_load(tidyverse, kableExtra, quantmod, fredr, patchwork, fpp2)
+pacman::p_load(tidyverse, kableExtra, quantmod, fredr, patchwork, fpp2, gridExtra)
 ```
 
 ## Tipo de Cambio Nominal
@@ -1162,3 +1162,284 @@ Es importante que si se utiliza la diferenciación, las diferencias sean interpr
 
 
 Pero si se toman las diferencias del tercer retardo para los datos anuales, por ejemplo, se obtiene un modelo que no puede interpretarse de forma razonable.
+
+---
+
+## Operador de diferencias
+
+El operador de diferencias se denota con la $\Delta$
+
+### Diferencia regular (un período)
+
+$$
+\begin{aligned}
+\Delta y_t  &= y_t - y_{t-1} \\
+\Delta^2 y_t &= \Delta (y_t - y_{t-1}) &=  (y_t - y_{t-1}) - (y_{t-1}-y_{t-2}) &= y_t - 2y_{t-1} +y_{t-2}\\
+\end{aligned}
+$$
+
+### Diferencia estacional
+
+$$\Delta_s y_t= y_t-y_{t-s}$$
+
+---
+
+## Operador de retardos
+
+$$
+\begin{aligned}
+Ly_t &=y_{t-1}\\
+L^2y_t &=y_{t-2}\\
+\vdots & \vdots \\
+L^sy_t &=y_{t-s}\\
+\end{aligned}
+$$
+
+En palabras, $L$, operando en $y_{t}$, tiene el efecto de **desplazar los datos hacia atrás un período**.
+
+Dos aplicaciones de $L$ a $y_{t}$ **desplazan los datos hacia atrás dos periodos** y así sucesivamente
+
+---
+
+## Operador de retardos
+
+En el caso de los datos mensuales, si deseamos concentrar la atención a "el mismo mes del año pasado'', entonces se utiliza $L^{12}$
+y la notación es notación es $L^{12}y_{t}$ = $y_{t-12}$.
+
+El operador de retardo hacia atrás es conveniente para describir el proceso de **diferenciación**. Una primera diferencia se puede escribir como
+
+$$y'_{t} = y_{t} - y_{t-1} = y_t - Ly_{t} = (1 - L)y_{t}$$
+
+Tenga en cuenta que una primera diferencia se representa por $(1 - L)$.
+
+Del mismo modo, si hay que calcular diferencias de segundo orden (es decir, primeras diferencias de primeras diferencias), entonces:
+$$y''_{t} = y_{t} - 2y_{t - 1}  + y_{t - 2} = (1 - L)^{2} y_{t}$$
+
+---
+
+## Operador de retardos
+
+* La diferencia de segundo orden se denota $(1- L)^{2}$.
+
+* **diferencia de segundo orden** no es lo mismo que **segunda diferencia**, que se denotaría $L^{2}$;
+
+* En general, una diferencia de orden $d$ se puede escribir como
+
+$$(1 - L)^{d} y_{t}.$$
+
+* Una diferencia estacional seguida de una primera diferencia puede escribirse como
+
+$$ (1-L)(1-L^m)y_t$$
+
+---
+
+## Operador de retardos
+
+La notación en operador de retardos es conveniente porque los términos pueden multiplicarse juntos para ver el efecto combinado.
+
+$$
+\begin{aligned}
+(1-B)(1-B^m)y_t &= (1 - B - B^m + B^{m+1})y_t \\
+&= y_t-y_{t-1}-y_{t-m}+y_{t-m-1}.
+\end{aligned}
+$$
+
+Para datos mensuales, $m=12$ y obtenemos el mismo resultado que antes.
+ 
+---
+
+## Operador de retardos en polinomios
+
+$$
+\begin{aligned}
+y_t&=\phi_1 y_{t-1}+\phi_2 y_{t-2}+\ldots+\phi_p y_{t-p}+\epsilon_t\\
+y_t-\phi_1 y_{t-1}-\phi_2 y_{t-2}-\ldots-\phi_p y_{t-p}&=\epsilon_t\\
+y_t-\phi_1 Ly_t-\phi_2 L^2y_t-\ldots-\phi_p L^py_t&=\epsilon_t\\
+(1-\phi_1 L-\phi_2 L^2-\ldots-\phi_p L^p)y_t&=\epsilon_t\\
+\phi(L)y_t&=\epsilon_t
+\end{aligned}
+$$
+
+Esta notación se empleará de manera extensa a lo largo de la asignatura
+
+---
+
+## Modelos autorregresivos
+
+Modelos autorregresivos (AR):
+$$y_{t} = c + \phi_{1}y_{t - 1}  + \phi_{2}y_{t - 2} + \cdots + \phi_{p}y_{t - p}  + \varepsilon_{t},$$
+donde $\varepsilon_t$ es ruido blanco.  Se trata de una regresión múltiple con **valores retardados** de $y_t$ como predictores.
+
+
+```{r arp, echo=FALSE, fig.height=5.5, fig.width=12}
+set.seed(1)
+p1 <- autoplot(10 + arima.sim(list(ar = -0.8), n = 100)) +
+  ylab("") + ggtitle("AR(1)")
+p2 <- autoplot(20 + arima.sim(list(ar = c(1.3, -0.7)), n = 100)) +
+  ylab("") + ggtitle("AR(2)")
+gridExtra::grid.arrange(p1,p2,nrow=1)
+```
+
+---
+
+## Modelos autorregresivos
+
+### Modelo AR(1)
+
+$$y_{t}    =   2 -0.8 y_{t - 1}  +  \varepsilon_{t}$$
+
+$$\varepsilon_t\sim N(0,1),\quad T=100$$
+
+```{r, echo=FALSE, fig.height=5, fig.width=12}
+p1
+```
+
+
+---
+
+## Modelos autorregresivos
+
+### Modelo AR(1)
+
+
+$$y_{t}    =   c + \phi_1 y_{t - 1}  +  \varepsilon_{t}$$
+
+
+
+* Cuando $\phi_1=0$, $y_t$ es **equivalente a un ruido blanco**
+* Cuando $\phi_1=1$ y $c=0$, $y_t$ es **equivalente a un ruido blanco**
+* Cuando $\phi_1=1$ y $c\ne0$, $y_t$ es **equivalente a un ruido blanco con deriva**
+* Cuando $\phi_1<0$, $y_t$ tiende a **oscila entre valores positivos y negativos**.
+
+---
+
+## Modelos autorregresivos
+
+### Modelo AR(2)
+
+$$y_t = 8 + 1.3y_{t-1} - 0.7 y_{t-2} + \varepsilon_t$$
+
+$$\varepsilon_t\sim N(0,1), \qquad T=100$$
+
+```{r, fig.height=5, fig.width=12}
+p2
+```
+
+---
+
+## Condiciones de estacionariedad
+
+Normalmente restringimos los modelos autorregresivos a datos estacionarios, por lo que se requieren algunas restricciones sobre los valores de los parámetros.
+
+### Condición general de estacionariedad
+
+Las raíces complejas de $1-\phi_1 z - \phi_2 z^2 - \dots - \phi_pz^p$ se encuentran fuera del círculo unitario en el plano complejo.
+
+
+* Para $p=1$: $-1<\phi_1<1$.
+* Para $p=2$:
+  $-1<\phi_2<1\qquad \phi_2+\phi_1 < 1 \qquad \phi_2 -\phi_1 < 1$.
+* Condiciones más complicadas se mantienen para $p\ge3$.
+
+---
+
+## Modelos de medias móviles (MA)
+
+$$y_{t}  =  c +  \varepsilon_t + \theta_{1}\varepsilon_{t - 1}  +  \theta_{2}\varepsilon_{t - 2}  +  \cdots  + \theta_{q}\varepsilon_{t - q},$$
+donde $\varepsilon_t$ es ruido blanco.
+
+Se trata de una regresión múltiple con **errores pasados como predictores.** 
+
+No confunda esto con el suavizado de la media móvil.
+
+
+```{r maq, fig.height=5, fig.width=12, echo=FALSE}
+set.seed(2)
+p1 <- autoplot(20 + arima.sim(list(ma = 0.8), n = 100)) +
+  ylab("") + ggtitle("MA(1)")
+p2 <- autoplot(arima.sim(list(ma = c(-1, +0.8)), n = 100)) +
+  ylab("") + ggtitle("MA(2)")
+gridExtra::grid.arrange(p1,p2,nrow=1)
+```
+ 
+---
+ 
+## Modelo MA(1) 
+
+
+$$y_t = 20 + \varepsilon_t + 0.8 \varepsilon_{t-1}$$
+
+$$\varepsilon_t\sim N(0,1),\quad T=100.$$
+
+```{r, fig.height=5, fig.width=12}
+p1
+```
+
+---
+
+## Modelo MA(2)
+
+
+$$y_t = \varepsilon_t -\varepsilon_{t-1} + 0.8 \varepsilon_{t-2}$$
+
+$$\varepsilon_t\sim N(0,1),\quad T=100$$
+
+```{r, fig.height=5, fig.width=12}
+p2
+```
+
+
+---
+
+
+## Modelo MA(<span>&#8734;</span>) 
+
+Es posible escribir cualquier proceso estacionario AR(*p*) como un proceso MA(<span>&#8734;</span>).
+
+### Ejemplo: AR(1)
+
+$$
+\begin{align*}
+y_t &= \phi_1y_{t-1} + \varepsilon_t\\
+&= \phi_1(\phi_1y_{t-2} + \varepsilon_{t-1}) + \varepsilon_t\\
+&= \phi_1^2y_{t-2} + \phi_1 \varepsilon_{t-1} + \varepsilon_t\\
+&= \phi_1^3y_{t-3} + \phi_1^2\varepsilon_{t-2} + \phi_1 \varepsilon_{t-1} + \varepsilon_t\\
+&\dots
+\end{align*}
+$$
+
+Dado que $-1 < \phi_1 < 1$:
+
+$$y_t = \varepsilon_t + \phi_1 \varepsilon_{t-1} + \phi_1^2 \varepsilon_{t-2} + \phi_1^3 \varepsilon_{t-3} + \cdots$$
+
+---
+
+## Invertibilidad
+
+- Cualquier proceso MA(*q*) puede ser escrito como un proceso AR(<span>&#8734;</span>) si imponemos algunas restricciones en los parámetros MA.
+
+- Entonces el modelo MA se llama "invertible".
+
+- Los modelos invertibles tienen algunas propiedades matemáticas que facilitan su uso en la práctica.
+
+- La invertibilidad de un modelo ARIMA es equivalente a la previsibilidad de un modelo HTA.
+
+
+---
+
+## Invertibilidad
+
+### Condición general de invertibilidad
+
+Las raíces complejas de $1+\theta_1 z + \theta_2 z^2 + \dots + \theta_qz^q$ están fuera del círculo unitario en el plano complejo.
+
+
+* Para $q=1$: $-1<\theta_1<1$.
+
+* Para $q=2$: $-1<\theta_2<1\qquad \theta_2+\theta_1 >-1 \qquad \theta_1 -\theta_2 < 1$.
+
+* Condiciones más complicadas se mantienen para $q\ge3$.
+
+
+
+
